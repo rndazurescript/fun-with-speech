@@ -37,7 +37,7 @@ namespace mic2console
                     if (e.Result.Reason == ResultReason.RecognizedSpeech)
                     {
                         Console.WriteLine($"> {e.Result.Text}");
-                        if (e.Result.Text.Contains("stop"))
+                        if (e.Result.Text.Contains("stop", StringComparison.OrdinalIgnoreCase))
                         {
                             await recognizer.StopContinuousRecognitionAsync();
                         }
