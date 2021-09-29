@@ -36,7 +36,9 @@ namespace mic2console
                 {
                     if (e.Result.Reason == ResultReason.RecognizedSpeech)
                     {
-                        Console.WriteLine($"> {e.Result.Text}");
+                        TimeSpan startOffset = TimeSpan.FromTicks(e.Result.OffsetInTicks);
+                        TimeSpan endOffset = startOffset.Add(TimeSpan.FromMilliseconds(e.Result.Duration.TotalMilliseconds));
+                        Console.WriteLine($"{startOffset} - {endOffset}> {e.Result.Text}");
                         if (e.Result.Text.Contains("stop", StringComparison.OrdinalIgnoreCase))
                         {
                             await recognizer.StopContinuousRecognitionAsync();

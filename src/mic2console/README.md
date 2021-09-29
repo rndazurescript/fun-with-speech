@@ -4,6 +4,8 @@ Simple application that uses the `StartContinuousRecognitionAsync` to continuous
 
 Say a sentence that contains the `stop` word to cancel the transcription session.
 
+## Requirements
+
 You will need a [speech service](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/overview). 
 
 In this sample we are using local docker container but you can use the speech service directly by using `SpeechConfig.FromSubscription` instead of the `SpeechConfig.FromHost` used in this sample.
