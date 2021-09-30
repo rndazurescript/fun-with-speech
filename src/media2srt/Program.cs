@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace media2text
+namespace media2srt
 {
     class Program
     {
@@ -18,22 +18,24 @@ namespace media2text
         {
             return await Parser.Default.ParseArguments<CliOptions>(args)
                .MapResult(
-                async (CliOptions opts) =>{
-                   try
-                   {
-                       if (string.IsNullOrEmpty(opts.Output))
-                       {
-                           opts.Output = $"{opts.Input}.txt";
-                       }
-                       // We have the parsed arguments, so let's just pass them down
-                       return await ProcessMediaFile(opts.Input, opts.Input, opts.Verbose);
-                   }
-                   catch(Exception ex)
-                   {
-                       Console.WriteLine($"Error! {ex.Message}");
-                       return -3; // Not handled error
-                   }
-               },
+                async (CliOptions opts) =>
+                {
+                    try
+                    {
+                        if (string.IsNullOrEmpty(opts.Output))
+                        {
+                            var inputFile = new FileInfo(opts.Input);
+                            opts.Output = $"{inputFile.FullName.Substring(0, inputFile.FullName.Length - inputFile.Extension.Length)}.srt";
+                        }
+                        // We have the parsed arguments, so let's just pass them down
+                        return await ProcessMediaFile(opts.Input, opts.Output, opts.Verbose);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error! {ex.Message}");
+                        return -3; // Not handled error
+                    }
+                },
                errs => Task.FromResult(-1) // Invalid arguments
               );
         }
@@ -41,7 +43,7 @@ namespace media2text
         static async Task<int> ProcessMediaFile(string inputFile, string outputFile, bool verbose)
         {
             var config = SpeechConfig.FromHost(new Uri("ws://localhost:5000"));
-            var output = new List<string>();
+            var output = new TranscriptionResults();
 
             var stopRecognition = new TaskCompletionSource<int>();
             // Create a mono audio input stream from the media file we want to process
@@ -57,12 +59,10 @@ namespace media2text
             recognizer.Recognized += (s, e) =>
             {
                 TimeSpan startOffset = TimeSpan.FromTicks(e.Result.OffsetInTicks);
-                TimeSpan endOffset = startOffset.Add(TimeSpan.FromMilliseconds(e.Result.Duration.TotalMilliseconds));
                 if (e.Result.Reason == ResultReason.RecognizedSpeech)
                 {
-                    var line = $"{startOffset}|{endOffset}|{e.Result.Text}";
-                    output.Add(line);
-                    Console.WriteLine($"{startOffset}>{e.Result.Text}");
+                    var newline = output.AddTranscription(startOffset, e.Result.Duration, e.Result.Text);
+                    Console.WriteLine(newline);
                 }
                 else if (e.Result.Reason == ResultReason.NoMatch)
                 {

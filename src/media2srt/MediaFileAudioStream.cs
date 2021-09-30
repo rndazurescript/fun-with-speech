@@ -3,10 +3,11 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.IO;
 
-namespace media2text
+namespace media2srt
 {
     internal class MediaFileAudioStream : PullAudioInputStreamCallback
     {
+        // Supported sample rate by speech to text service
         private const int SAMPLE_RATE = 16000;
         private string filePath;
         private MemoryStream audioStream;

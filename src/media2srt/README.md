@@ -1,11 +1,11 @@
-﻿# Media file to text transcription
+﻿# Media file to srt subtitles transcription
 
 Simple application that transcribes a media file (tested with mkv files). The purpose of this demo app is to show how to parse files.
 
 Usage:
 
 ```
-media2text -i c:\tmp\sample.mkv
+media2srt -i c:\tmp\sample.mkv
 ```
 
 Executable's parameters:
@@ -13,7 +13,7 @@ Executable's parameters:
   -i, --input      Required. The input media file to process
 
   -o, --output     The output text file to write transcription.
-                   If not specified, a .txt file with the same name as the input will be created.
+                   If not specified, a .srt file with the same name as the input will be created.
 
   -v, --verbose    (Default: false) Set output to verbose messages.
 
@@ -40,3 +40,5 @@ Original idea was to extract audio from mkv using ffmpeg or a .net wrapper libra
 ```
 ffmpeg -i video.mkv -acodec pcm_s16le -ac 2 audio.wav
 ```
+
+Perhaps you can parallelize using https://markheath.net/post/trimming-wav-file-using-naudio.

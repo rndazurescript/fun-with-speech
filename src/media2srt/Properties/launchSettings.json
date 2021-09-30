@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "media2srt": {
+      "commandName": "Project",
+      "commandLineArgs": "-i c:\\tmp\\sample.mkv"
+    }
+  }
+}
