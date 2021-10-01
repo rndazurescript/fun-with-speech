@@ -42,3 +42,12 @@ ffmpeg -i video.mkv -acodec pcm_s16le -ac 2 audio.wav
 ```
 
 Perhaps you can parallelize using https://markheath.net/post/trimming-wav-file-using-naudio.
+
+## Converting srt to word text
+
+To remove the numbers and the timings, you can use word's wildcards to search and replace them and keep only the text:
+
+1. Replace `([0-9]{1;3})^13` with empty
+1. Replace `[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --\> ` with empty.
+1. Replace `[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}^13` with empty. You could have replaced at once the whole timing but the pattern is too complex to do it once off.
+1. Replace `^13^13` with space to remove the double empty lines.
