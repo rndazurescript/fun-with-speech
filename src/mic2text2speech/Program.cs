@@ -88,10 +88,8 @@ namespace mic2text2speech
                     };
 
                     await recognizer.StartContinuousRecognitionAsync();
-                    // Waits for completion. Use Task.WaitAny to keep the task rooted.
+                    // Waits for completion. Use Task.WaitAll to keep the task rooted.
                     Task.WaitAll(new[] { stopRecognition.Task, stopSpeechService.Task });
-                    // Empty the speech to text buffer
-                    await synthesizer.StopSpeakingAsync();
                 }
             }
         }
