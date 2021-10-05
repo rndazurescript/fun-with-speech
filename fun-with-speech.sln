@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mic2console", "src\mic2cons
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "media2srt", "src\media2srt\media2srt.csproj", "{AE13B13A-F3F2-4403-AB0D-3725033B48DA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mic2text2speech", "src\mic2text2speech\mic2text2speech.csproj", "{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,26 @@ Global
 		{AE13B13A-F3F2-4403-AB0D-3725033B48DA}.Release|x64.Build.0 = Release|Any CPU
 		{AE13B13A-F3F2-4403-AB0D-3725033B48DA}.Release|x86.ActiveCfg = Release|Any CPU
 		{AE13B13A-F3F2-4403-AB0D-3725033B48DA}.Release|x86.Build.0 = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|x64.Build.0 = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Debug|x86.Build.0 = Debug|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|ARM.Build.0 = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|ARM64.Build.0 = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|x64.ActiveCfg = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|x64.Build.0 = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2309D15-6F8A-4A76-BF7D-F1086CBBD5CB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
