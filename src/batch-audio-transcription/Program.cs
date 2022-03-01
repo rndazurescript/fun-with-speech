@@ -2,6 +2,8 @@
 using CommandLine;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using ClosedXML.Excel;
+using System.Data;
 
 namespace BatchAudioTranscription
 {
@@ -49,10 +51,10 @@ namespace BatchAudioTranscription
                 // Call the ProcessMediaFile
                 try
                 {
-                    var fileResult = new FileResult(fileName);
-                    results.Add(fileResult);
-                    fileResult.FileLoaded = await ProcessMediaFile(config, fileResult, verbose);
-                    if (!fileResult.FileLoaded)
+                    var audiofileresult = new FileResult(fileName);
+                    results.Add(audiofileresult);
+                    audiofileresult.FileLoaded = await ProcessMediaFile(config, audiofileresult, verbose);
+                    if (!audiofileresult.FileLoaded)
                     {
                         Console.WriteLine($"Could not load file '{fileName}' as an audio file.");
                         Console.WriteLine("Try installing missing codecs, like gstreamer.");
@@ -67,10 +69,63 @@ namespace BatchAudioTranscription
                     allGood = false;
                 }
             }
-            // TODO: Create an excel file and save the results
 
+            // Create an excel file and save the results
+            SaveResultsInXL(output, results);
 
             return allGood ? 0 : -4;
+        }
+
+        private static void SaveResultsInXL(string output, List<FileResult> results)
+        {
+            // We are using the https://closedxml.github.io/ClosedXML/
+            // for excel manipulation in .net 6
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("TranscriptionResults");
+               
+                DataTable table = new DataTable();
+
+                table.Columns.Add("File name", typeof(string));
+                table.Columns.Add("Folder", typeof(string));
+                table.Columns.Add("Audio loaded", typeof(bool));
+                table.Columns.Add("Timestamp", typeof(string));
+                table.Columns.Add("Duration (ms)", typeof(int));
+                table.Columns.Add("Transcription Text", typeof(string));
+                table.Columns.Add("Confidence", typeof(double));
+
+
+                foreach (var afr in results)
+                {
+                    if (!afr.FileLoaded)
+                    {
+                        // If the file is not an audio file that could be loaded by the MediaFileAudioStream
+                        // Add it in the table and mark it as "Audio loaded" -> False 
+                        table.Rows.Add(afr.File.Name, afr.File.DirectoryName, false, String.Empty, 0, String.Empty, 0);
+                    }
+                    else
+                    {
+                        // The audio file did load, so "Audio loaded" -> true
+                        if (afr.Results.Count == 0)
+                        {
+                            // If we didn't transcribe any result, add a new line in excel
+                            table.Rows.Add(afr.File.Name, afr.File.DirectoryName, true, String.Empty, 0, String.Empty, 0);
+                        }
+                        else
+                        {
+                            // Add one line in excel for each transcription we got
+                            foreach (var tr in afr.Results)
+                            {
+                                table.Rows.Add(afr.File.Name, afr.File.DirectoryName, true, tr.StartTime.ToString(@"hh\:mm\:ss\,fff"), tr.Duration.TotalMilliseconds, tr.Text, tr.Confidence);
+                            }
+                        }
+                    }
+                }
+
+                var tableWithData = worksheet.Cell(1, 1).InsertTable(table.AsEnumerable());
+
+                workbook.SaveAs(output);
+            }
         }
 
         static async Task<bool> ProcessMediaFile(SpeechConfig config, FileResult inputFile, bool verbose)
@@ -124,6 +179,16 @@ namespace BatchAudioTranscription
 
                 if (e.Reason == CancellationReason.Error)
                 {
+                    // Document that something went wrong.
+                    // For example you may be getting AuthenticationFailure
+                    // which may be due to the pricing tier you are using.
+                    inputFile.Results.Add(new TranscriptionResult()
+                    {
+                        Text = $"{e.ErrorCode}:{e.ErrorDetails}",
+                        Confidence = 0,
+                        StartTime = TimeSpan.FromMinutes(0),
+                        Duration = TimeSpan.FromMinutes(0)
+                    });
                     Console.WriteLine($"CANCELED: ErrorCode={e.ErrorCode}");
                     Console.WriteLine($"CANCELED: ErrorDetails={e.ErrorDetails}");
                     Console.WriteLine($"CANCELED: Did you update the speech key and location/region info?");

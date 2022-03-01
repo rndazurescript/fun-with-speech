@@ -10,7 +10,7 @@ namespace BatchAudioTranscription
         [Option('k', "key", Required = true, HelpText = "This is your Speech Service key found in the Keys and Endpoint blade in Azure portal")]
         public string Key { get; set; }
 
-        [Option('r', "region", Required = true, HelpText = "This is your Speech Service Location/Region found in the Keys and Endpoint blade in Azure portal")]
+        [Option('g', "region", Required = true, HelpText = "This is your Speech Service Location/Region found in the Keys and Endpoint blade in Azure portal")]
         public string Region { get; set; }
 
         [Option('l', "locale", Required = false, Default = "en-US", HelpText = "The locale to use while processing the files.\r\nDefault locale en-US.")]
