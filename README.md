@@ -3,7 +3,7 @@ Various samples with Azure speech service
 
 ## Inspirational links
 
-The following links have helped my produce those samples
+The following links have helped me produce those samples
 
 - https://github.com/Azure-Samples/cognitive-services-speech-sdk
 - https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started-speech-to-text?tabs=windowsinstall&pivots=programming-language-csharp 
